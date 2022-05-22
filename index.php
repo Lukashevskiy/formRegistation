@@ -12,21 +12,33 @@
 <body>
 
     <pre><?php
+        $payment_array = [
+            "WebMoney",
+            "Яндекс Деньги",
+            "PayPal",
+            "Кредитная карта"
+        ];
+        $theme_array = [
+            "Бизнес",
+            "Технологии",
+            "Маркетинг"
+        ];
+
         $themeSelected = '';
         $errors = [];
         $dir_to_save = "clients/";
         $key = 0;
+
+        $fname = $_POST['firstName'] ?? null;
+        $lname = $_POST['lastName'] ?? null;
+        $email = $_POST['email'] ?? null;
+        $phone = $_POST['phone'] ?? null;
+        $theme = $_POST['theme'] ?? null;
+        $themeSelected = $_POST['themeSelected'] ?? null;
+        $payment = $_POST['payment'] ?? null;
+        $confirm = (bool)($_POST['mailing'] ?? 0);
+
         if ($_POST) {
-            $fname = $_POST['firstName'] ?? null;
-            $lname = $_POST['lastName'] ?? null;
-            $email = $_POST['email'] ?? null;
-            $phone = $_POST['phone'] ?? null;
-            $theme = $_POST['theme'] ?? null;
-            $themeSelected = $_POST['themeSelected'] ?? null;
-            $payment = $_POST['payment'] ?? null;
-            $confirm = (bool)($_POST['mailing'] ?? 0);
-
-
             $error = '';
             if (!$fname) {
                 $errors[] = 'name';
@@ -50,13 +62,13 @@
 
             if (isset($errors) and empty($errors)) {
                 $out = 0;
-                $out = $fname . "\t" . $lname . "\t" . $email . "\t" . $phone . "\t" . $theme . "\t" . $payment . "\t" . (($confirm) ? 'mailing' : '');
+                $out = $fname . "\t" . $lname . "\t" . $email . "\t" . $phone . "\t" . $theme . "\t" . $payment . "\t" . (!$confirm ? 'Нет':'Да' );
 
             if (!is_dir($dir_to_save)) {
                 mkdir($dir_to_save);
             }
 
-                file_put_contents($dir_to_save. "_" . date("d_m_y_h_m_s") . "_". uniqid() . "_.txt", $out);
+                file_put_contents($dir_to_save. date("d_m_y_h_m_s") . "_". uniqid() . ".txt", $out);
                 header("Location: index.php?registration-complete=Ok");
                 $key = 1;
             } else if ($key === 1) {
@@ -79,7 +91,7 @@
     <div class="row justify-content-center">
         <div class="col-5">
             <h1>Регистрация</h1>
-            <div class="col-12 visually-hidden" >
+            <div class="col-12 " >
                 <?php var_dump($_POST); ?>
             </div>
             <form method="post" class="needs-validation" style="margin-top: 50px">
@@ -115,33 +127,53 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <label for="theme" class="form-label">Тема конференции</label>
-                        <select name="theme" class="form-select<?php echo(in_array('theme', $errors)) ? ' is-invalid' : ''?>" id="theme" aria-label="Тема конференции">
-                            <option selected></option>
-                            <option value="Бизнес">Бизнесс</option>
-                            <option value="Технологии">Технологии</option>
-                            <option value="Реклама и Маркетинг">Маркетинг</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Пожалуйста выберите тему на которую хотите зарегестритроваться.
-                        </div>
+                        <?php
+                        echo '<label for="theme" class="form-label">Тема</label>';
+                        echo '<select name="theme" class="form-select'.
+                            (in_array('theme', $errors) ? ' is_invalid"': ' is_valid"') .
+                            ' id="payment" aria-label="Тема">';
+
+                        echo '<option'. (!$theme ? ' selected' : ' ') . '></option>';
+
+                        foreach($theme_array as $themes){
+                            echo '<option'. ($themes === $theme ? ' selected': '') .
+                                '>' .
+                                htmlspecialchars($themes) .
+                                '</option>';
+                        }
+                        echo '</select>';
+
+                        echo "<div class= invalid-feedback >";
+                        echo " Выберите тему";
+                        echo "</div>";
+                        ?>
+
                     </div>
 
                     <div class="col-sm-6">
-                        <label for="payment" class="form-label">Cпособ оплаты</label>
-                        <select name="payment" class="form-select<?php echo(in_array('payment', $errors)) ? ' is-invalid' : ''?>" id="payment" aria-label="Способ оплаты">
-                            <option selected></option>
-                            <option value="WebMoney">WebMoney</option>
-                            <option value="Яндекс Деньги">Яндекс Деньги</option>
-                            <option value="PayPal">PayPal</option>
-                            <option value="Кредитная карта">Кредитная карта</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Пожалуйста выберите способ оплаты
-                        </div>
+                        <?php
+                            echo '<label for="payment" class="form-label">Cпособ оплаты</label>';
+                            echo '<select name="payment" class="form-select'.
+                                (in_array('payment', $errors) ? ' is_invalid"': ' is_valid"') .
+                                ' id="payment" aria-label="Способ оплаты">';
+
+                            echo '<option'. (!$payment ? ' selected' : ' ') . '></option>';
+
+                            foreach($payment_array as $pay){
+                                echo '<option'. ($payment === $pay ? ' selected': '') .
+                                    '>' .
+                                    htmlspecialchars($pay) .
+                                    '</option>';
+                            }
+                            echo '</select>';
+
+                            echo "<div class= invalid-feedback >";
+                            echo " Выберите способ оплаты ";
+                            echo "</div>";
+                        ?>
                     </div>
                     <div class="col-12">
-                        <input class="form-check-input" type="checkbox" value="" id="mailing" name="mailing">
+                        <input class="form-check-input" type="checkbox" value="1" id="mailing" name="mailing" <?php echo $confirm == "1" ? 'checked':'' ?> >
                         <label class="form-check-label" for="mailing">
                             Выбрав, соглашаетесь на рассылку новостей на указанную почту и номер телефона.
                         </label>
