@@ -8,6 +8,10 @@
 <br>
 
 ### 2) версия в ветке 1_simple_form_without_anything
+Ветка со 2 версией формы. 
+<br>
+Реализована запись в один файл. разделить "\t" 
+<br>
 
 ### 3) версия в ветке 1_simple_form_without_anything
 
