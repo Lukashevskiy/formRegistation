@@ -55,7 +55,7 @@
                         $ch += 1;
                     }
                 echo "</table>";
-                echo "<button class='btn btn-primary' type='submit'>Безжалостно удалить</button>";
+                echo "<button class='btn btn-primary ' type=\'submit\'>Безжалостно удалить</button>";
 
                 if ($_POST) {
                     foreach (array_keys($_POST) as $post) {
