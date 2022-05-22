@@ -62,7 +62,7 @@
 
             if (isset($errors) and empty($errors)) {
                 $out = 0;
-                $out = $fname . "\t" . $lname . "\t" . $email . "\t" . $phone . "\t" . $theme . "\t" . $payment . "\t" . (($confirm) ? 'mailing' : '');
+                $out = $fname . "\t" . $lname . "\t" . $email . "\t" . $phone . "\t" . $theme . "\t" . $payment . "\t" . (!$confirm ? 'Нет':'Да' );
 
             if (!is_dir($dir_to_save)) {
                 mkdir($dir_to_save);
@@ -91,7 +91,7 @@
     <div class="row justify-content-center">
         <div class="col-5">
             <h1>Регистрация</h1>
-            <div class="col-12" >
+            <div class="col-12 " >
                 <?php var_dump($_POST); ?>
             </div>
             <form method="post" class="needs-validation" style="margin-top: 50px">
@@ -173,7 +173,7 @@
                         ?>
                     </div>
                     <div class="col-12">
-                        <input class="form-check-input" type="checkbox" value="" id="mailing" name="mailing">
+                        <input class="form-check-input" type="checkbox" value="1" id="mailing" name="mailing" <?php echo $confirm == "1" ? 'checked':'' ?> >
                         <label class="form-check-label" for="mailing">
                             Выбрав, соглашаетесь на рассылку новостей на указанную почту и номер телефона.
                         </label>
