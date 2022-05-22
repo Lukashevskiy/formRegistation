@@ -27,6 +27,7 @@
         $themeSelected = '';
         $errors = [];
         $dir_to_save = "clients/";
+        $file_to_save = 'clients';
         $key = 0;
 
         $fname = $_POST['firstName'] ?? null;
@@ -62,13 +63,18 @@
 
             if (isset($errors) and empty($errors)) {
                 $out = 0;
-                $out = $fname . "\t" . $lname . "\t" . $email . "\t" . $phone . "\t" . $theme . "\t" . $payment . "\t" . (!$confirm ? 'Нет':'Да' );
+                $out = date("d-m-y_h-m-s") ."\t".
+                $_SERVER['REMOTE_ADDR']."\t".
+                $fname . "\t" . $lname . "\t" .
+                $email . "\t" . $phone . "\t" .
+                $theme . "\t" . $payment . "\t" .
+                (!$confirm ? 'Нет':'Да') . "\t". '0' .PHP_EOL;
 
             if (!is_dir($dir_to_save)) {
                 mkdir($dir_to_save);
             }
 
-                file_put_contents($dir_to_save. date("d_m_y_h_m_s") . "_". uniqid() . ".txt", $out);
+                file_put_contents($dir_to_save.$file_to_save, $out, FILE_APPEND);
                 header("Location: index.php?registration-complete=Ok");
                 $key = 1;
             } else if ($key === 1) {
@@ -92,7 +98,9 @@
         <div class="col-5">
             <h1>Регистрация</h1>
             <div class="col-12 " >
-                <?php var_dump($_POST); ?>
+                <?php var_dump($_POST);
+                var_dump($_SERVER['REMOTE_ADDR']);
+                var_dump(date("d-m-y_h-m-s"));?>
             </div>
             <form method="post" class="needs-validation" style="margin-top: 50px">
                 <div class="row g-3">
