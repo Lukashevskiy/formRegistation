@@ -97,7 +97,7 @@
     <div class="row justify-content-center">
         <div class="col-5">
             <h1>Регистрация</h1>
-            <div class="col-12 " >
+            <div class="col-12 visually-hidden" >
                 <?php var_dump($_POST);
                 var_dump($_SERVER['REMOTE_ADDR']);
                 var_dump(date("d-m-y_h-m-s"));?>

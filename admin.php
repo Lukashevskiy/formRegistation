@@ -57,19 +57,19 @@
                     echo "</table>";
                     echo "<button class='btn btn-primary ' type=\'submit\'>Безжалостно удалить</button>";
 
-                if ($_POST) {
-                    //(array_keys($_POST));
-                    foreach (array_keys($_POST) as $post) {
-                        $old_data = explode("\t", $array_data[$post]);
-                        $old_data[count($old_data) - 1] = 1;
-                        //var_dump($old_data);
-                        $array_data[$post] = implode("\t",$old_data).PHP_EOL;
+                    if ($_POST) {
+                        //(array_keys($_POST));
+                        foreach (array_keys($_POST) as $post) {
+                            $old_data = explode("\t", $array_data[$post]);
+                            $old_data[count($old_data) - 1] = 1;
+                            //var_dump($old_data);
+                            $array_data[$post] = implode("\t",$old_data).PHP_EOL;
+                        }
+                        #var_dump(print_r($array_data));
+                        file_put_contents('clients/clients', $array_data);
+                        unset($array_data);
+                        header('Location: admin.php');
                     }
-                    #var_dump(print_r($array_data));
-                    file_put_contents('clients/clients', $array_data);
-                    unset($array_data);
-                    //header('Location: admin.php');
-                }
                 } else echo '<h1>Еще никто не заполнил заявку.</h1>';
 
                 ?>
