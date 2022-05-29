@@ -35,7 +35,6 @@
         $email = $_POST['email'] ?? null;
         $phone = $_POST['phone'] ?? null;
         $theme = $_POST['theme'] ?? null;
-        $themeSelected = $_POST['themeSelected'] ?? null;
         $payment = $_POST['payment'] ?? null;
         $confirm = (bool)($_POST['mailing'] ?? 0);
 
@@ -102,11 +101,11 @@
                 var_dump($_SERVER['REMOTE_ADDR']);
                 var_dump(date("d-m-y_h-m-s"));?>
             </div>
-            <form method="post" class="needs-validation" style="margin-top: 50px">
+            <form method="post" class="needs-validation" style="margin-top: 50px" novalidate>
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <label for="firstName" class="form-label">Имя</label>
-                        <input type="text" name="firstName" class="form-control<?php echo(in_array('name', $errors)) ? ' is-invalid' : ''?>" id="firstName" placeholder="" value="<?= htmlspecialchars($_POST['firstName'] ?? '') ?>" required="">
+                        <input type="text" name="firstName" class="form-control<?php echo(in_array('name', $errors)) ? ' is-invalid' : ' is-valid'?>" id="firstName" placeholder="" value="<?= htmlspecialchars($_POST['firstName'] ?? '') ?>" required="">
                         <div class="invalid-feedback">
                             Некоррекное имя
                         </div>
@@ -114,7 +113,7 @@
 
                     <div class="col-sm-6">
                         <label for="lastName" class="form-label">Фамилия</label>
-                        <input type="text" name="lastName" class="form-control<?php echo(in_array('last', $errors)) ? ' is-invalid' : ''?>" id="lastName" placeholder="" value="<?= htmlspecialchars($_POST['lastName'] ?? '') ?>" required="">
+                        <input type="text" name="lastName" class="form-control<?php echo(in_array('last', $errors)) ? ' is-invalid' : ' is-valid'?>" id="lastName" placeholder="" value="<?= htmlspecialchars($_POST['lastName'] ?? '') ?>" required="">
                         <div class="invalid-feedback">
                             Некорректная фамилия
                         </div>
@@ -122,14 +121,14 @@
 
                     <div class="col-12">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control<?php echo(in_array('email', $errors)) ? ' is-invalid' : ''?>" id="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
+                        <input type="email" name="email" class="form-control<?php echo(in_array('email', $errors)) ? ' is-invalid' : ' is-valid'?>" id="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                         <div class="invalid-feedback">
                             Пожалуйста введите корректный адресс почты, именно на него придет подтверждение о регистрации.
                         </div>
                     </div>
                     <div class="col-12">
                         <label for="phone" class="form-label">Номер телефона</label>
-                        <input type="tel" name="phone" class="form-control<?php echo(in_array('phone', $errors)) ? ' is-invalid' : ''?>" id="phone" value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>">
+                        <input type="tel" name="phone" class="form-control<?php echo(in_array('phone', $errors)) ? ' is-invalid' : ' is-valid'?>" id="phone" value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>">
                         <div class="invalid-feedback">
                             Пожалуйста введите корректный адресс почты, именно на него мы будет вести связь с вами.
                         </div>
@@ -138,10 +137,10 @@
                         <?php
                         echo '<label for="theme" class="form-label">Тема</label>';
                         echo '<select name="theme" class="form-select'.
-                            (in_array('theme', $errors) ? ' is_invalid"': ' is_valid"') .
+                            (in_array('theme', $errors) ? ' is-invalid"': ' is-valid"') .
                             ' id="payment" aria-label="Тема">';
 
-                        echo '<option'. (!$theme ? ' selected' : ' ') . '></option>';
+                        echo '<option'. (!$theme ? ' selected' : ' ') . ' disabled ></option>';
 
                         foreach($theme_array as $themes){
                             echo '<option'. ($themes === $theme ? ' selected': '') .
@@ -162,7 +161,7 @@
                         <?php
                             echo '<label for="payment" class="form-label">Cпособ оплаты</label>';
                             echo '<select name="payment" class="form-select'.
-                                (in_array('payment', $errors) ? ' is_invalid"': ' is_valid"') .
+                                (in_array('payment', $errors) ? ' is-invalid"': ' is-valid"') .
                                 ' id="payment" aria-label="Способ оплаты">';
 
                             echo '<option'. (!$payment ? ' selected' : ' ') . '></option>';
